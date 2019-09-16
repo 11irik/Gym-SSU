@@ -27,6 +27,7 @@ namespace Gym
             int day;
             int time;
 
+            gym.OpenBase("base.txt");
             ShowHelp();
             while (!isEnd)
             {
@@ -146,9 +147,13 @@ namespace Gym
                     case 111:
                         ShowHelp();
                         break;
+                    case 200:
+                        gym.SaveBase();
+                        break;
                     case 100:
                         isEnd = true;
                         return;
+                    
                 }
                 Console.Write("Enter number of a command:");
             }
@@ -168,7 +173,7 @@ namespace Gym
                                     "Set training        - 7\t" + "Show full schedule     - 17\n" +
                                     "Remove training     - 8\t" + "Show help              - 111\n" +
                                     "Write client        - 9\t" + "Exit program           - 100\n" +
-                                    "Writeout client     - 10\n" +
+                                    "Writeout client     - 10\t" + "Save base             - 200\n" +
                                     "--------------------------------------------------------");
         }
     }

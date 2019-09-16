@@ -8,6 +8,7 @@ namespace Gym
     {
         private string _type; 
         private int _number;
+        public static string _tag = "Room";
 
         public Room(string type, int num)
         {
@@ -34,8 +35,7 @@ namespace Gym
 
         public override string ToString()
         {
-            string str = $"{_type} {_number}";
-            return str + Environment.NewLine;
+            return $"{_tag} {_type} {_number}";
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace Gym
@@ -244,6 +245,65 @@ namespace Gym
             }
 
             return null;
+        }
+
+        public void SaveBase()
+        {
+            using (StreamWriter output = new StreamWriter("base.txt"))
+            {
+                foreach (Trainer trainer in _trainers)
+                {
+                    output.WriteLine(trainer);
+                }
+                foreach (Room room in _rooms)
+                {
+                    output.WriteLine(room);
+                }
+            }           
+        }
+
+        public void OpenBase(String address)
+        {
+            using (StreamReader input = new StreamReader(address))
+            {
+                String s = input.ReadLine();
+                string[] entity;
+                if (!String.IsNullOrEmpty(s))
+                {
+                    entity = s.Split();
+                }
+                else
+                {
+                    throw new Exception("Base is empty");
+                }
+                
+                while (entity[0] == Trainer._tag)
+                {
+                    Add(new Trainer(entity[1], entity[2], entity[3], entity[4]));
+                    s = input.ReadLine();
+                    if (!String.IsNullOrEmpty(s))
+                    {
+                        entity = s.Split();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                while (entity[0] == Room._tag)
+                {
+                    Add(new Room(entity[1], int.Parse(entity[2])));
+                    s = input.ReadLine();
+                    if (!String.IsNullOrEmpty(s))
+                    {
+                        entity = s.Split();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         private void ShowTraining(Training training)

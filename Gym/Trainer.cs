@@ -8,7 +8,7 @@ namespace Gym
         private string _name; 
         private string _patronymic;
         private string _phoneNumber;
-        private static string _position = "Trainer";
+        public static string _tag = "Trainer";
 
         private int _id;
         private static int _idCounter = 0;
@@ -55,7 +55,7 @@ namespace Gym
 
         public override string ToString()
         {
-            return $"{_position} {_surname} {_name} {_patronymic} {_phoneNumber}";
+            return $"{_tag} {_surname} {_name} {_patronymic} {_phoneNumber}";
         }
     }
 }
