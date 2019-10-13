@@ -97,11 +97,11 @@ namespace Gym
 
         public override string ToString()
         {
-            string str = $"{_trainerId}" + Environment.NewLine;
+            string str = $"{_trainerId};{_roomNumber};{_day};{_time};";
 
             foreach (int id in _clientsIds)
             {
-                str += $"{id}, ";
+                str += $"{id};";
             }
 
             return str;

@@ -35,7 +35,7 @@ namespace Gym
 
         public override string ToString()
         {
-            return $"{_tag} {_type} {_number}";
+            return $"{_tag};{_type};{_number};";
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Gym
             return null;
         }
 
-        public Room GetRoom(int number) //получить комнату из списка по номеру комнаты
+        public Room GetRoom(int number) 
         {
             foreach (Room room in _rooms)
             {
@@ -89,7 +89,7 @@ namespace Gym
             return null;
         }
 
-        public Trainer GetTrainer(String phoneNum) //получить тренера из списка по номеру телефона
+        public Trainer GetTrainer(String phoneNum) 
         {
             foreach (Trainer trainer in _trainers)
             {
@@ -102,7 +102,7 @@ namespace Gym
             return null;
         }
 
-        public void GetAllTrainers() //вывести на экран всех тренеров
+        public void GetAllTrainers() 
         {
             foreach (Trainer trainer in _trainers )
             {
@@ -110,7 +110,7 @@ namespace Gym
             }
         }
 
-        public void GetAllRooms() //вывести на экран все комнаты
+        public void GetAllRooms() 
         {
             foreach (Room room in _rooms)
             {
@@ -118,7 +118,7 @@ namespace Gym
             }
         }
 
-        public void GetAllClients() //вывести на экран всех клиентов
+        public void GetAllClients() 
         {
             foreach (Client client in _clients )
             {
@@ -126,7 +126,7 @@ namespace Gym
             }
         }
 
-        public bool IsTrainerFree(Trainer trainer, int day, int time) //проверка, свободен ли тренер в заданную дату
+        public bool IsTrainerFree(Trainer trainer, int day, int time) 
         {
             foreach (Training training in _trainings)
             {
@@ -141,7 +141,7 @@ namespace Gym
             return true;
         }
 
-        public bool IsRoomFree(Room room, int day, int time) //свободен ли спортзал в заданную дату
+        public bool IsRoomFree(Room room, int day, int time) 
         {
             foreach (Training training in _trainings)
             {
@@ -157,7 +157,7 @@ namespace Gym
             return true;
         }
 
-        public bool IsClientFree(Client client, int day, int time) //свободен ли клиент в заданную дату
+        public bool IsClientFree(Client client, int day, int time) 
         {
             foreach (Training training in _trainings)
             {
@@ -173,7 +173,7 @@ namespace Gym
             return true;
         }
 
-        public void SetTraining(Trainer trainer, int day, int time, Room room) //создать тренировку в заданной комнате на заданное время
+        public void SetTraining(Trainer trainer, int day, int time, Room room) 
         {
             if (IsTrainerFree(trainer, day, time) && IsRoomFree(room, day, time))
             {
@@ -181,7 +181,7 @@ namespace Gym
             }
         }
 
-        public void RemoveTraining(Trainer trainer, int day, int time) //удалить тренировку
+        public void RemoveTraining(Trainer trainer, int day, int time) 
         {
             for (int i = 0; i < _trainings.Count; ++i)
             {
@@ -206,7 +206,7 @@ namespace Gym
             return null;
         }
 
-        public void WriteClient(Client client, Trainer trainer, int day, int time) //записать клиента на занятие к заданному трениеу
+        public void WriteClient(Client client, Trainer trainer, int day, int time) 
         {
             Training training = GetTraining(trainer, day, time);
             if (IsClientFree(client, day, time))
@@ -215,7 +215,7 @@ namespace Gym
             }
         }
 
-        public void WriteOutClient(Client client, Trainer trainer, int day, int time) //"выписать" клиента с тренировки
+        public void WriteOutClient(Client client, Trainer trainer, int day, int time) 
         {
             Training training = GetTraining(trainer, day, time);
             training.WriteOutClient(client);
@@ -317,7 +317,7 @@ namespace Gym
             Console.WriteLine(GetTrainer(training.trainerId).ToString() + '\n' + s);
         }
 
-        public void ShowTrainerSchedule(Trainer trainer) //вывести на экран все расписание тренера
+        public void ShowTrainerSchedule(Trainer trainer)
         {
             foreach (Training training in _trainings)
             {
@@ -328,7 +328,7 @@ namespace Gym
             }
         }
 
-        public void ShowClientSchedule(Client client) //вывести на экран все расписание клиента
+        public void ShowClientSchedule(Client client) 
         {
             foreach (Training training in _trainings)
             {
@@ -339,7 +339,7 @@ namespace Gym
             }
         }
 
-        public void ShowFullSchedule() //вывести на экран все расписание спортивного комплекса
+        public void ShowFullSchedule() 
         {
             foreach (Training training in _trainings)
             {

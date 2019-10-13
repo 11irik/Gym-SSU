@@ -11,9 +11,9 @@ namespace Gym
   {
         public static void Main(string[] args)
         {
-            Gym gym = new Gym(); //объявление экземпляра спортивного зала
+            Gym gym = new Gym(); 
 
-            //блок вспомогательных переменных
+           
             int caseSwitch;
             bool isEnd = false;
             string[] s;
@@ -158,8 +158,7 @@ namespace Gym
                 Console.Write("Enter number of a command:");
             }
         }
-
-        //Консольное меню
+      
         static void ShowHelp()
         {
             Console.WriteLine(      "Add trainer to base - 1\t" + "Show trainer base      - 11\n" +

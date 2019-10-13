@@ -55,7 +55,7 @@ namespace Gym
 
         public override string ToString()
         {
-            return $"{_tag} {_surname} {_name} {_patronymic} {_phoneNumber}";
+            return $"{_tag};{_surname};{_name};{_patronymic};{_phoneNumber};";
         }
     }
 }
