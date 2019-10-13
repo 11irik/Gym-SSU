@@ -1,19 +1,26 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Gym
 {
-    [Serializable]
+    [DataContract]
     public class Trainer
     {
+        [DataMember]
         private string _surname;
-        private string _name; 
+        [DataMember]
+        private string _name;
+        [DataMember]
         private string _patronymic;
+        [DataMember]
         private string _phoneNumber;
+        [DataMember]
+        private int _id;
+        
+        [NonSerialized]
+        private static int _idCounter = 0;
         [NonSerialized]
         public static string tag = "Trainer";
-
-        private int _id;
-        private static int _idCounter = 0;
 
         public Trainer(string surname, string name, string patronymic, string phoneNumber)
         {

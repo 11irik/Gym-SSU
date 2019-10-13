@@ -1,13 +1,16 @@
 using System;
 using System.Globalization;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace Gym
 {
-    [Serializable]
+    [DataContract]
     public class Room
     {
-        private string _type; 
+        [DataMember]
+        private string _type;
+        [DataMember]
         private int _number;
         [NonSerialized]
         public static string tag = "Room";

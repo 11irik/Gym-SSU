@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Gym
 {
-    [Serializable]
+    [DataContract]
     public class Training
     {
+        [DataMember]
         private int _trainerId;
+        [DataMember]
         private List<int> _clientsIds;
+        [DataMember]
         private int _roomNumber;
+        [DataMember]
         private int _day;
+        [DataMember]
         private int _time;
         [NonSerialized] 
         public const string tag = "Training";

@@ -1,19 +1,27 @@
 using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace Gym
 {
-    [Serializable]
+    [DataContract]
     public class Client
     {
+        [DataMember]
         private string _surname;
+        [DataMember]
         private string _name;
-        private string _patronymic; 
+        [DataMember]
+        private string _patronymic;
+        [DataMember]
         private string _phoneNumber;
+        [DataMember]
+        private int _id;
+        
+        private static int _idCounter = 0;
+        
         [NonSerialized]
         public static string tag = "Client";
-
-        private int _id;
-        private static int _idCounter = 0;
 
         public Client(string surname, string name, string patronymic, string phoneNumber)
         {

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 
 namespace Gym
 {
@@ -25,12 +26,12 @@ namespace Gym
             int day;
             int time;
 
-            BinaryFormatter formatter = new BinaryFormatter();
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
             Gym gym = new Gym(); 
             
-            using (FileStream fs = new FileStream("gym.dat", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("gym.json", FileMode.OpenOrCreate))
             {
-                gym = (Gym)formatter.Deserialize(fs);
+                gym = (Gym)jsonFormatter.ReadObject(fs);
             }
             
             ShowHelp();
@@ -154,10 +155,10 @@ namespace Gym
                         ShowHelp();
                         break;
                     case 200:
-                        using (FileStream fs = new FileStream("gym.dat", FileMode.OpenOrCreate))
+                        using (FileStream fs = new FileStream("gym.json", FileMode.OpenOrCreate))
                         {
                             // сериализуем весь массив people
-                            formatter.Serialize(fs, gym);
+                            jsonFormatter.WriteObject(fs, gym);
                             Console.WriteLine("Объект сериализован");
                         }
                         //gym.SaveBase();

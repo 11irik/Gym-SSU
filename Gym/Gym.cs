@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Xml;
 
 namespace Gym
 {
-    [Serializable]
+    [DataContract]
     internal class Gym
     {
-        private List<Room>   _rooms;  
+        [DataMember]
+        private List<Room>   _rooms;
+        [DataMember]
         private List<Trainer>  _trainers;
-        private List<Client> _clients;    
+        [DataMember]
+        private List<Client> _clients;
+        [DataMember]
         private List<Training> _trainings;
         
         public Gym()
