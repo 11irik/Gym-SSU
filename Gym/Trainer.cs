@@ -2,13 +2,15 @@ using System;
 
 namespace Gym
 {
+    [Serializable]
     public class Trainer
     {
         private string _surname;
         private string _name; 
         private string _patronymic;
         private string _phoneNumber;
-        public static string _tag = "Trainer";
+        [NonSerialized]
+        public static string tag = "Trainer";
 
         private int _id;
         private static int _idCounter = 0;
@@ -55,7 +57,7 @@ namespace Gym
 
         public override string ToString()
         {
-            return $"{_tag};{_surname};{_name};{_patronymic};{_phoneNumber};";
+            return $"{tag};{_surname};{_name};{_patronymic};{_phoneNumber};";
         }
     }
 }

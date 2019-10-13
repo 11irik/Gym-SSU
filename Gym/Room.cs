@@ -4,11 +4,13 @@ using System.Net;
 
 namespace Gym
 {
+    [Serializable]
     public class Room
     {
         private string _type; 
         private int _number;
-        public static string _tag = "Room";
+        [NonSerialized]
+        public static string tag = "Room";
 
         public Room(string type, int num)
         {
@@ -35,7 +37,7 @@ namespace Gym
 
         public override string ToString()
         {
-            return $"{_tag};{_type};{_number};";
+            return $"{tag};{_type};{_number};";
         }
     }
 }

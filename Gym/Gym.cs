@@ -5,6 +5,7 @@ using System.Xml;
 
 namespace Gym
 {
+    [Serializable]
     internal class Gym
     {
         private List<Room>   _rooms;  
@@ -277,7 +278,7 @@ namespace Gym
                     throw new Exception("Base is empty");
                 }
                 
-                while (entity[0] == Trainer._tag)
+                while (entity[0] == Trainer.tag)
                 {
                     Add(new Trainer(entity[1], entity[2], entity[3], entity[4]));
                     s = input.ReadLine();
@@ -290,7 +291,7 @@ namespace Gym
                         return;
                     }
                 }
-                while (entity[0] == Room._tag)
+                while (entity[0] == Room.tag)
                 {
                     Add(new Room(entity[1], int.Parse(entity[2])));
                     s = input.ReadLine();

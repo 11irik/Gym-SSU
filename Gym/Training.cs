@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Gym
 {
+    [Serializable]
     public class Training
     {
         private int _trainerId;
@@ -10,6 +11,8 @@ namespace Gym
         private int _roomNumber;
         private int _day;
         private int _time;
+        [NonSerialized] 
+        public const string tag = "Training";
 
         public Training(Trainer trainer, int day, int time, Room room)
         {
@@ -97,7 +100,7 @@ namespace Gym
 
         public override string ToString()
         {
-            string str = $"{_trainerId};{_roomNumber};{_day};{_time};";
+            string str = $"{tag};{_trainerId};{_roomNumber};{_day};{_time};";
 
             foreach (int id in _clientsIds)
             {

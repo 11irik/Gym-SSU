@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gym
 {
@@ -11,9 +12,6 @@ namespace Gym
   {
         public static void Main(string[] args)
         {
-            Gym gym = new Gym(); 
-
-           
             int caseSwitch;
             bool isEnd = false;
             string[] s;
@@ -27,8 +25,16 @@ namespace Gym
             int day;
             int time;
 
-            gym.OpenBase("base.txt");
+            BinaryFormatter formatter = new BinaryFormatter();
+            Gym gym = new Gym(); 
+            
+            using (FileStream fs = new FileStream("gym.dat", FileMode.OpenOrCreate))
+            {
+                gym = (Gym)formatter.Deserialize(fs);
+            }
+            
             ShowHelp();
+            
             while (!isEnd)
             {
                 caseSwitch = int.Parse(Console.ReadLine());
@@ -148,7 +154,13 @@ namespace Gym
                         ShowHelp();
                         break;
                     case 200:
-                        gym.SaveBase();
+                        using (FileStream fs = new FileStream("gym.dat", FileMode.OpenOrCreate))
+                        {
+                            // сериализуем весь массив people
+                            formatter.Serialize(fs, gym);
+                            Console.WriteLine("Объект сериализован");
+                        }
+                        //gym.SaveBase();
                         break;
                     case 100:
                         isEnd = true;
@@ -173,7 +185,7 @@ namespace Gym
                                     "Remove training     - 8\t" + "Show help              - 111\n" +
                                     "Write client        - 9\t" + "Exit program           - 100\n" +
                                     "Writeout client     - 10\t" + "Save base             - 200\n" +
-                                    "--------------------------------------------------------");
+                                    "--------------------------------------------------------\n");
         }
     }
 }
