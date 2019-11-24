@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -8,35 +9,59 @@ namespace Gym
     public class Training
     {
         [DataMember]
-        private int _trainerId;
+        private Trainer _trainer;
         [DataMember]
-        private List<int> _clientsIds;
+        private List<Client> _clients;
         [DataMember]
-        private int _roomNumber;
+        private Room _room;
         [DataMember]
         private int _day;
         [DataMember]
         private int _time;
-        [NonSerialized] 
-        public const string tag = "Training";
+
 
         public Training(Trainer trainer, int day, int time, Room room)
         {
-            _trainerId = trainer.id;
-            _clientsIds = new List<int>();
+            _trainer = trainer;
+            _clients = new List<Client>();
             _day = day;
             _time = time;
-            _roomNumber = room.number;
+            _room = room;
         }
 
         public void WriteClient(Client client)
         {
-            _clientsIds.Add(client.id);
+            _clients.Add(client);
         }
 
-        public bool WriteOutClient(Client client)
+        public void WriteOutClient(String clientPhone)
         {
-            if (_clientsIds.Remove(client.id))
+            for (int i = _clients.Count - 1; i >= 0; --i)
+            {
+                if (_clients[i].Phonenumber == clientPhone)
+                {
+                    _clients.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public bool HasClient(String clientPhone)
+        {
+            foreach (Client client in _clients)
+            {
+                if (client.Phonenumber == clientPhone)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HasTrainer(String trainerPhone)
+        {
+            if (_trainer.Phonenumber == trainerPhone)
             {
                 return true;
             }
@@ -46,33 +71,9 @@ namespace Gym
             }
         }
 
-        public bool HasClient(Client client)
+        public bool HasRoom(int roomNumber)
         {
-            if (_clientsIds.Contains(client.id))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool IsTrainer(Trainer trainer)
-        {
-            if (_trainerId == trainer.id)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool IsRoom(Room room)
-        {
-            if (_roomNumber == room.number)
+            if (_room.Number == roomNumber)
             {
                 return true;
             }
@@ -94,26 +95,14 @@ namespace Gym
             }
         }
 
-        public int trainerId
-        {
-            get { return _trainerId; }
-        }
-
-        public List<int> clientsIds
-        {
-            get { return _clientsIds; }
-        }
-
+        //todo
         public override string ToString()
         {
-            string str = $"{tag};{_trainerId};{_roomNumber};{_day};{_time};";
-
-            foreach (int id in _clientsIds)
-            {
-                str += $"{id};";
-            }
-
-            return str;
+            StringBuilder s = new StringBuilder();
+            s.Append(_trainer.ToString()).Append(" ");
+            s.Append(_room.Number).Append(" ");
+            s.Append((DayOfWeek)_day).Append(" " + _time + ":00");
+            return s.ToString();
         }
     }
 }

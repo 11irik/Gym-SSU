@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -26,331 +27,280 @@ namespace Gym
             _trainings = new List<Training>();
         }
 
-        public void Add(Trainer trainer)
-        {
-            _trainers.Add(trainer);
-        }
-
-        public void Add(Room room) 
-        {
-            _rooms.Add(room);
-        }
-
-        public void Add(Client client)
-        {
-            _clients.Add(client);
-        }
-
-        public void Remove(Trainer trainer)
-        {
-            for(int i = 0; i < _trainings.Count; ++i)
-            {
-                if (_trainings[i].IsTrainer(trainer))
-                {
-                    _trainings.Remove(_trainings[i]); 
-                }
-            }
-
-            _trainers.Remove(trainer);
-        }
-
-        public void Remove(Room room)
-        {
-            _rooms.Remove(room);
-        }
-
-        public void Remove(Client client)
-        {
-            foreach (Training training in _trainings)
-            {
-                training.WriteOutClient(client);
-            }
-
-            _clients.Remove(client);
-        }
-
-        public Client GetClient(String phoneNum)
-        {
-            foreach (Client client in _clients)
-            {
-                if (client.IsPhoneNumber(phoneNum))
-                {
-                    return client;
-                }
-            }
-
-            return null;
-        }
-
-        public Room GetRoom(int number) 
-        {
-            foreach (Room room in _rooms)
-            {
-                if (room.IsRoom(number))
-                {
-                    return room;
-                }
-            }
-
-            return null;
-        }
-
-        public Trainer GetTrainer(String phoneNum) 
+        public bool AddTrainer(String lastname, String name, String patronymic, String phoneNumber)
         {
             foreach (Trainer trainer in _trainers)
             {
-                if (trainer.IsPhoneNumber(phoneNum))
+                if (trainer.Phonenumber == phoneNumber)
                 {
-                    return trainer;
+                    return false;
                 }
             }
 
-            return null;
+            _trainers.Add(new Trainer(lastname, name, patronymic, phoneNumber));
+            return true;
         }
 
-        public void GetAllTrainers() 
-        {
-            foreach (Trainer trainer in _trainers )
-            {
-                Console.WriteLine(trainer);
-            }
-        }
-
-        public void GetAllRooms() 
+        public bool AddRoom(String type, int number) 
         {
             foreach (Room room in _rooms)
             {
-                Console.WriteLine(room);
-            }
-        }
-
-        public void GetAllClients() 
-        {
-            foreach (Client client in _clients )
-            {
-                Console.WriteLine(client);
-            }
-        }
-
-        public bool IsTrainerFree(Trainer trainer, int day, int time) 
-        {
-            foreach (Training training in _trainings)
-            {
-                if (training.IsDate(day, time))
+                if (room.Number == number)
                 {
-                    if (training.IsTrainer(trainer))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public bool IsRoomFree(Room room, int day, int time) 
-        {
-            foreach (Training training in _trainings)
-            {
-                if (training.IsDate(day, time))
-                {
-                    if (training.IsRoom(room))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
+            _rooms.Add(new Room(type, number));
             return true;
         }
 
-        public bool IsClientFree(Client client, int day, int time) 
+        public bool AddClient(String lastname, String name, String patronymic, String phoneNumber)
         {
-            foreach (Training training in _trainings)
+            foreach (Client client in _clients)
             {
-                if (training.IsDate(day, time))
+                if (client.Phonenumber == phoneNumber)
                 {
-                    if (training.HasClient(client))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
+            _clients.Add(new Client(lastname, name, patronymic, phoneNumber));
             return true;
         }
 
-        public void SetTraining(Trainer trainer, int day, int time, Room room) 
+        public void SetTraining(int roomNumber, int day, int time, String trainerPhone)
         {
-            if (IsTrainerFree(trainer, day, time) && IsRoomFree(room, day, time))
+            foreach (Trainer trainer in _trainers)
             {
-                _trainings.Add(new Training(trainer, day, time, room));
-            }
-        }
-
-        public void RemoveTraining(Trainer trainer, int day, int time) 
-        {
-            for (int i = 0; i < _trainings.Count; ++i)
-            {
-                if (_trainings[i].IsTrainer(trainer) && _trainings[i].IsDate(day, time))
+                if (trainer.Phonenumber == trainerPhone)
                 {
-                    _trainings.Remove(_trainings[i]);
+                    if (!IsTrainerBusy(trainerPhone, day, time))
+                    {
+                        foreach (Room room in _rooms)
+                        {
+                            if (room.Number == roomNumber)
+                            {
+                                if (!IsRoomBusy(roomNumber, day, time))
+                                {
+                                    _trainings.Add(new Training(trainer, day, time, room));
+                                }
+                                else
+                                {
+                                    throw new Exception("Room is busy");
+                                }
+                                break;
+                            }
+                        }                        
+                    }
+                    else
+                    {
+                        throw new Exception("Trainer is busy");
+                    }
                     break;
                 }
             }
         }
 
-        private Training GetTraining(Trainer trainer, int day, int time)
-        {
-            foreach (Training training in _trainings)
-            {
-                if (training.IsTrainer(trainer) && training.IsDate(day, time))
-                {
-                    return training;
-                }
-            }
-
-            return null;
-        }
-
-        public void WriteClient(Client client, Trainer trainer, int day, int time) 
-        {
-            Training training = GetTraining(trainer, day, time);
-            if (IsClientFree(client, day, time))
-            {
-                training.WriteClient(client);
-            }
-        }
-
-        public void WriteOutClient(Client client, Trainer trainer, int day, int time) 
-        {
-            Training training = GetTraining(trainer, day, time);
-            training.WriteOutClient(client);
-        }
-
-        private Trainer GetTrainer(int id)
-        {
-            foreach (Trainer trainer in _trainers)
-            {
-                if (trainer.IsId(id))
-                {
-                    return trainer;
-                }
-            }
-
-            return null;
-        }
-
-        private Client GetClient(int id)
+        public void WriteClient(int roomNumber, int day, int time, String clientPhone)
         {
             foreach (Client client in _clients)
             {
-                if (client.IsId(id))
+                if (client.Phonenumber == clientPhone)
                 {
-                    return client;
-                }
-            }
-
-            return null;
-        }
-
-        public void SaveBase()
-        {
-            using (StreamWriter output = new StreamWriter("base.txt"))
-            {
-                foreach (Trainer trainer in _trainers)
-                {
-                    output.WriteLine(trainer);
-                }
-                foreach (Room room in _rooms)
-                {
-                    output.WriteLine(room);
-                }
-            }           
-        }
-
-        public void OpenBase(String address)
-        {
-            using (StreamReader input = new StreamReader(address))
-            {
-                String s = input.ReadLine();
-                string[] entity;
-                if (!String.IsNullOrEmpty(s))
-                {
-                    entity = s.Split();
-                }
-                else
-                {
-                    throw new Exception("Base is empty");
-                }
-                
-                while (entity[0] == Trainer.tag)
-                {
-                    Add(new Trainer(entity[1], entity[2], entity[3], entity[4]));
-                    s = input.ReadLine();
-                    if (!String.IsNullOrEmpty(s))
-                    {
-                        entity = s.Split();
+                    if (!IsClientBusy(clientPhone, day, time)) 
+                    {                     
+                        foreach (Training training in _trainings)                    
+                        {                        
+                            if (training.HasRoom(roomNumber) && training.IsDate(day, time))                        
+                            {                            
+                                training.WriteClient(client);                            
+                                break;                        
+                            }                    
+                        }              
                     }
                     else
                     {
-                        return;
+                        throw new Exception("Client is busy");
                     }
+                    break;
                 }
-                while (entity[0] == Room.tag)
+            }
+        }
+
+        public void WriteOutClient(int roomNumber, int day, int time, String clientPhone)
+        {
+            foreach (Training training in _trainings)
+            {
+                if (training.HasRoom(roomNumber) && training.IsDate(day, time))
                 {
-                    Add(new Room(entity[1], int.Parse(entity[2])));
-                    s = input.ReadLine();
-                    if (!String.IsNullOrEmpty(s))
+                    training.WriteOutClient(clientPhone);
+                    break;
+                }
+            }
+        }
+
+        public void RemoveTrainer(String trainerPhone)
+        {
+            for (int i = _trainers.Count - 1; i >= 0; --i)
+            {
+                if (_trainers[i].Phonenumber == trainerPhone)
+                {
+                    _trainers.RemoveAt(i);
+                    break;
+                }
+            }
+
+            for (int i = _trainings.Count; i >= 0; --i)
+            {
+                if (_trainings[i].HasTrainer(trainerPhone))
+                {
+                    _trainings.RemoveAt(i);
+                }
+            }          
+        }
+
+        public void RemoveRoom(int roomNumber)
+        {
+            for (int i = _rooms.Count - 1; i >= 0; --i)
+            {
+                if (_rooms[i].Number == roomNumber)
+                {
+                    _rooms.RemoveAt(i);
+                }
+            }
+
+            for (int i = _trainings.Count; i >= 0; --i)
+            {
+                if (_trainings[i].HasRoom(roomNumber))
+                {
+                    _rooms.RemoveAt(i);
+                }
+            }
+        }
+
+        public void RemoveClient(String clientPhone)
+        {
+            for (int i = _clients.Count - 1; i >= 0; --i)
+            {
+                if (_clients[i].Phonenumber == clientPhone)
+                {
+                    _clients.RemoveAt(i);
+                    break;
+                }
+            }
+
+            foreach (Training training in _trainings)
+            {
+                if (training.HasClient(clientPhone))
+                {
+                    training.WriteOutClient(clientPhone);
+                }
+            }
+        }
+
+        public void RemoveTraining(int roomNumber, int day, int time)
+        {
+            for (int i = _trainings.Count - 1; i >= 0; --i)
+            {
+                if (_trainings[i].HasRoom(roomNumber) && _trainings[i].IsDate(day, time))
+                {
+                    _trainings.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public String GetTrainers()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (Trainer trainer in _trainers)
+            {
+                s.Append(trainer.ToString()).Append('\n');
+            }
+
+            return s.ToString();
+        }
+
+        public String GetRooms()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (Room room in _rooms)
+            {
+                s.Append(room.ToString()).Append('\n');
+            }
+
+            return s.ToString();
+        }
+
+        public String GetClients()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (Client client in _clients)
+            {
+                s.Append(client.ToString()).Append('\n');
+            }
+
+            return s.ToString();
+        }
+
+        private bool IsClientBusy(String clientPhone, int day, int time)
+        {
+            foreach (Training training in _trainings)
+            {
+                if (training.IsDate(day, time))
+                {
+                    if (training.HasClient(clientPhone))
                     {
-                        entity = s.Split();
+                        return true;
                     }
-                    else
+                }
+            }
+            return false;
+        }
+
+        private bool IsTrainerBusy(String trainerPhone, int day, int time)
+        {
+            foreach (Training training in _trainings)
+            {
+                if (training.IsDate(day, time))
+                {
+                    if (training.HasTrainer(trainerPhone))
                     {
-                        return;
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
-        private void ShowTraining(Training training)
-        {
-            string s = "";
-            foreach (int id in training.clientsIds)
-            {
-                s += GetClient(id).ToString() + ", ";
-            }
-
-            Console.WriteLine(GetTrainer(training.trainerId).ToString() + '\n' + s);
-        }
-
-        public void ShowTrainerSchedule(Trainer trainer)
+        private bool IsRoomBusy(int roomNumber, int day, int time)
         {
             foreach (Training training in _trainings)
             {
-                if (training.IsTrainer(trainer))
+                if (training.IsDate(day, time))
                 {
-                    ShowTraining(training);
+                    if (training.HasRoom(roomNumber))
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
 
-        public void ShowClientSchedule(Client client) 
+
+        public String GetSchedule()
         {
+            StringBuilder s = new StringBuilder();
             foreach (Training training in _trainings)
             {
-                if (training.HasClient(client))
-                {
-                    ShowTraining(training);
-                }
+                s.Append(training.ToString()).Append('\n');
             }
+
+            return s.ToString();
         }
 
-        public void ShowFullSchedule() 
-        {
-            foreach (Training training in _trainings)
-            {
-                ShowTraining(training);
-            }
-        }
+        
     }
 }
