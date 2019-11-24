@@ -14,6 +14,8 @@ namespace Gym
         public List<Trainer>  _trainers;
         public List<Client> _clients;
         public List<Training> _trainings;
+
+        int testtest;
         
         public Gym()
         {
