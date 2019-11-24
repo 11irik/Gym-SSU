@@ -15,16 +15,13 @@ namespace Gym
         {
             Gym gym = Gym.GetInstance();
 
-            
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
-            /*using (FileStream fs = new FileStream("gym.json", FileMode.OpenOrCreate))
-            {
-                gym = (Gym)jsonFormatter.ReadObject(fs);
-            }*/
+            int testCommit = 15;
+            testCommit++;
 
             int caseSwitch;
             bool isEnd = false;
             List<String> strings = new List<string>();
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
 
             ShowHelp();
 
