@@ -16,7 +16,7 @@ namespace Gym
         [DataMember]
         protected string _phonenumber { get; set; }
         [DataMember]
-        protected int _id { get; }
+        protected int _id { get; set; }
 
         private static int _idCounter = 0;
 

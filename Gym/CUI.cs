@@ -13,8 +13,10 @@ namespace Gym
   {
         public static void Main(string[] args)
         {
+            Gym gym = Gym.GetInstance();
+
+            
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
-            Gym gym = new Gym(); 
             /*using (FileStream fs = new FileStream("gym.json", FileMode.OpenOrCreate))
             {
                 gym = (Gym)jsonFormatter.ReadObject(fs);
@@ -25,7 +27,7 @@ namespace Gym
             List<String> strings = new List<string>();
 
             ShowHelp();
-         
+
             while (!isEnd)
             {
                 caseSwitch = int.Parse(Console.ReadLine());
@@ -132,6 +134,29 @@ namespace Gym
                     case 14:
                         Console.WriteLine(gym.GetSchedule());
                         break;
+                    case 15:
+                        Console.Write("Enter filename: ");
+                        strings.Add(Console.ReadLine());
+                        using (FileStream fs = new FileStream(strings[0], FileMode.OpenOrCreate))
+                        {                         
+                            jsonFormatter.WriteObject(fs, gym);
+                        }
+                        break;
+                    case 16:
+                        Console.Write("Enter filename: ");
+                        strings.Add(Console.ReadLine());
+                        try
+                        {
+                            using (FileStream fs = new FileStream(strings[0], FileMode.Open))
+                            {
+                                gym = (Gym)jsonFormatter.ReadObject(fs);
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("There is no such a file");
+                        }
+                        break;
                     case 111:
                         ShowHelp();
                         break;
@@ -147,7 +172,7 @@ namespace Gym
         {
             String[] methodNames = {"Add trainer to base - 1", "Add room to base - 2", "Add client to base - 3", "Remove trainer - 4", "Remove room - 5",
                 "Remove client - 6", "Set training - 7", "Remove training - 8", "Write client - 9", "Writeout client - 10", "Show trainer base - 11",
-                "Show room base - 12", "Show client base - 13", "Show schedule - 14", "Show help - 111", "Stop - 100"};
+                "Show room base - 12", "Show client base - 13", "Show schedule - 14","Save gym - 15", "Open gym - 16", "Show help - 111", "Stop - 100"};
 
             String s = "";
             for (int i = 0; i < methodNames.Length; ++i)

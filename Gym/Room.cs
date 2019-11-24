@@ -23,5 +23,10 @@ namespace Gym
         {
             get => _number;
         }
+
+        public override string ToString()
+        {
+            return $"{_type};{_number}";
+        }
     }
 }
