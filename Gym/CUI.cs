@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gym
 {
@@ -17,7 +17,7 @@ namespace Gym
             int caseSwitch;
             bool isEnd = false;
             List<String> strings = new List<string>();
-            XmlSerializer formatter = new XmlSerializer(typeof(Gym));
+            BinaryFormatter formatter = new BinaryFormatter();
 
             ShowHelp();
 
