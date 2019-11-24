@@ -7,36 +7,20 @@ using System.Xml;
 
 namespace Gym
 {
-    [DataContract]
-    internal class Gym
+    [Serializable]
+    public class Gym
     {
-        [DataMember]
-        private List<Room>   _rooms;
-        [DataMember]
-        private List<Trainer>  _trainers;
-        [DataMember]
-        private List<Client> _clients;
-        [DataMember]
-        private List<Training> _trainings;
-
-        [NonSerialized]
-        private static Gym instance;
+        public List<Room>   _rooms;
+        public List<Trainer>  _trainers;
+        public List<Client> _clients;
+        public List<Training> _trainings;
         
-        private Gym()
+        public Gym()
         {
             _rooms   = new List<Room>();
             _trainers = new List<Trainer>();
             _clients = new List<Client>();
             _trainings = new List<Training>();
-        }
-
-        public static Gym GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new Gym();
-            }
-            return instance;
         }
 
         public bool AddTrainer(String lastname, String name, String patronymic, String phoneNumber)

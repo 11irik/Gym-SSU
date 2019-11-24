@@ -4,21 +4,21 @@ using System.Runtime.Serialization.Json;
 
 namespace Gym
 {
-    [DataContract]
+    [Serializable]
     public class Person
     {
-        [DataMember]
-        protected string _lastname { get; set; }
-        [DataMember]
-        protected string _name { get; set; }
-        [DataMember]
-        protected string _patronymic { get; set; }
-        [DataMember]
-        protected string _phonenumber { get; set; }
-        [DataMember]
-        protected int _id { get; set; }
+        public string _lastname { get; set; }
+        public string _name { get; set; }
+        public string _patronymic { get; set; }
+        public string _phonenumber { get; set; }
+        public int _id { get; set; }
 
-        private static int _idCounter = 0;
+        public static int _idCounter = 0;
+
+        public Person()
+        {
+
+        }
 
         public Person(string surname, string name, string patronymic, string phoneNumber)
         {

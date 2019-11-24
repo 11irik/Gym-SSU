@@ -5,20 +5,19 @@ using System.Runtime.Serialization;
 
 namespace Gym
 {
-    [DataContract]
+    [Serializable]
     public class Training
     {
-        [DataMember]
-        private Trainer _trainer;
-        [DataMember]
-        private List<Client> _clients;
-        [DataMember]
-        private Room _room;
-        [DataMember]
-        private int _day;
-        [DataMember]
-        private int _time;
+        public Trainer _trainer;
+        public List<Client> _clients;
+        public Room _room;
+        public int _day;
+        public int _time;
 
+        public Training()
+        {
+
+        }
 
         public Training(Trainer trainer, int day, int time, Room room)
         {

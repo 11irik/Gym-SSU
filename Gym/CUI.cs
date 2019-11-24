@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
 
 namespace Gym
 {
@@ -13,7 +9,7 @@ namespace Gym
   {
         public static void Main(string[] args)
         {
-            Gym gym = Gym.GetInstance();
+            Gym gym = new Gym();
 
             int testCommit = 15;
             testCommit++;
@@ -21,7 +17,7 @@ namespace Gym
             int caseSwitch;
             bool isEnd = false;
             List<String> strings = new List<string>();
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
+            XmlSerializer formatter = new XmlSerializer(typeof(Gym));
 
             ShowHelp();
 
@@ -136,7 +132,7 @@ namespace Gym
                         strings.Add(Console.ReadLine());
                         using (FileStream fs = new FileStream(strings[0], FileMode.OpenOrCreate))
                         {                         
-                            jsonFormatter.WriteObject(fs, gym);
+                            formatter.Serialize(fs, gym);
                         }
                         break;
                     case 16:
@@ -146,7 +142,7 @@ namespace Gym
                         {
                             using (FileStream fs = new FileStream(strings[0], FileMode.Open))
                             {
-                                gym = (Gym)jsonFormatter.ReadObject(fs);
+                                gym = (Gym)formatter.Deserialize(fs);
                             }
                         }
                         catch

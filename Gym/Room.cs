@@ -5,13 +5,16 @@ using System.Runtime.Serialization;
 
 namespace Gym
 {
-    [DataContract]
+    [Serializable]
     public class Room
     {
-        [DataMember]
-        private string _type;
-        [DataMember]
-        private int _number;
+        public string _type;
+        public int _number;
+
+        public Room()
+        {
+
+        }
 
         public Room(string type, int number)
         {
