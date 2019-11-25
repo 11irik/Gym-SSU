@@ -7,7 +7,7 @@ namespace Gym
 {
     class Program
     {
-        public static void prog()
+        public static void Serialize()
         {
             Gym gym = new Gym();
 
@@ -19,10 +19,36 @@ namespace Gym
             {
                 formatter.Serialize(fs, gym);
             }
+
+            foreach(Person person in gym.GetPeople())
+            {
+                Console.WriteLine(person);
+            }
+            Console.ReadLine();
         }
-        public static void pain(String[] args)
+
+        public static void DeSerialize()
         {
-            prog();
+            Gym gym = new Gym();
+
+            XmlSerializer formatter = new XmlSerializer(typeof(Gym));
+
+            using (FileStream fs = new FileStream("test.xml", FileMode.Open))
+            {
+                gym = (Gym)formatter.Deserialize(fs);
+            }
+
+            foreach (Person person in gym.GetPeople())
+            {
+                Console.WriteLine(person);
+            }
+            Console.ReadLine();
+        }
+
+        public static void Main(String[] args)
+        {
+            Serialize();
+            DeSerialize();
         }
     }
 }

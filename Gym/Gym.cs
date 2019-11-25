@@ -30,6 +30,11 @@ namespace Gym
             _people.Add(person);
         }
 
+        public List<Person> GetPeople()
+        {
+            return _people;
+        }
+
         public bool AddTrainer(String lastname, String name, String patronymic, String phoneNumber)
         {
             foreach (Trainer trainer in _trainers)
