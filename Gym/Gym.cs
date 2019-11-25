@@ -15,7 +15,7 @@ namespace Gym
         public List<Client> _clients;
         public List<Training> _trainings;
 
-        int testtest;
+        public List<Person> _people;
         
         public Gym()
         {
@@ -23,6 +23,18 @@ namespace Gym
             _trainers = new List<Trainer>();
             _clients = new List<Client>();
             _trainings = new List<Training>();
+
+            _people = new List<Person>();
+        }
+
+        public void AddPerson(Person person)
+        {
+            _people.Add(person);
+        }
+
+        public List<Person> GetPersons()
+        {
+            return _people;
         }
 
         public bool AddTrainer(String lastname, String name, String patronymic, String phoneNumber)

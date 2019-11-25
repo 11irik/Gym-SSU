@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gym
 {
@@ -7,20 +9,49 @@ namespace Gym
     {
 
 
-        public static void prog()
+        public static void Serialize()
         {
-            List<Person> _people = new List<Person>();
+            Gym gym = new Gym();
 
-            _people.Add(new Trainer("f", "f", "f", "f"));
-            _people.Add(new Client("a", "a", "a", "a"));
-            foreach (Trainer trainer in _people)
+            gym.AddPerson(new Trainer("f", "f", "f", "f"));
+            gym.AddPerson(new Client("a", "a", "a", "a"));
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("test.dat", FileMode.OpenOrCreate))
             {
-                Console.WriteLine(trainer);
+                formatter.Serialize(fs, gym);
             }
+            Console.WriteLine("Serialized:");
+
+            foreach (Person person in gym.GetPersons())
+            {
+                Console.WriteLine(person);
+            }
+            Console.ReadLine();
         }
-        public static void pain(String[] args)
+
+        public static void DeSerialize()
         {
-            prog();
+            Gym gym = new Gym();
+
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("test.dat", FileMode.Open))
+            {
+                gym = (Gym)formatter.Deserialize(fs);
+            }
+            Console.WriteLine("Deserialized:");
+            foreach (Person person in gym.GetPersons())
+            {
+                Console.WriteLine(person);
+            }
+            Console.ReadLine();
+        }
+        public static void Main(String[] args)
+        {
+            Serialize();
+            DeSerialize();
+            
         }
     }
 }
