@@ -48,6 +48,7 @@ namespace Gym
                 Console.WriteLine(person);
             }
             Console.ReadLine();
+            int test = 5;
         }
         public static void Main(String[] args)
         {
