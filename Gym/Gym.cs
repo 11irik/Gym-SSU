@@ -38,6 +38,11 @@ namespace Gym
             _people.Add(person);
         }
 
+        public List<Person> GetPeople()
+        {
+            return _people;
+        }
+
         public static Gym GetInstance()
         {
             if (instance == null)
