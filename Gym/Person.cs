@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Json;
 namespace Gym
 {
     [DataContract]
+    [KnownType(typeof(Client)), KnownType(typeof(Trainer))]
     public class Person
     {
         [DataMember]

@@ -11,7 +11,7 @@ namespace Gym
 {
   internal class CUI
   {
-        public static void Main(string[] args)
+        public static void pain(string[] args)
         {
             Gym gym = Gym.GetInstance();
 

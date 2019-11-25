@@ -18,6 +18,8 @@ namespace Gym
         private List<Client> _clients;
         [DataMember]
         private List<Training> _trainings;
+        [DataMember]
+        private List<Person> _people;
 
         [NonSerialized]
         private static Gym instance;
@@ -28,6 +30,12 @@ namespace Gym
             _trainers = new List<Trainer>();
             _clients = new List<Client>();
             _trainings = new List<Training>();
+            _people = new List<Person>();
+        }
+
+        public void AddPerson(Person person)
+        {
+            _people.Add(person);
         }
 
         public static Gym GetInstance()

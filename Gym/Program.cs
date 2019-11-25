@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
+using System.IO;
+
+
 
 namespace Gym
 {
     class Program
     {
-
-
         public static void prog()
         {
             List<Person> _people = new List<Person>();
+            Gym gym = Gym.GetInstance();
 
-            _people.Add(new Trainer("f", "f", "f", "f"));
-            _people.Add(new Client("a", "a", "a", "a"));
-            foreach (Trainer trainer in _people)
+            gym.AddPerson(new Trainer("f", "f", "f", "f"));
+            gym.AddPerson(new Client("a", "a", "a", "a"));
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Gym));
+
+            using (FileStream fs = new FileStream("test.json", FileMode.OpenOrCreate))
             {
-                Console.WriteLine(trainer);
+                jsonFormatter.WriteObject(fs, gym);
             }
         }
-        public static void pain(String[] args)
+        public static void Main(String[] args)
         {
             prog();
+
         }
     }
 }
