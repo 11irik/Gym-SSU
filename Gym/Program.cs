@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Gym
 {
     class Program
     {
-
-
         public static void prog()
         {
-            List<Person> _people = new List<Person>();
+            Gym gym = new Gym();
 
-            _people.Add(new Trainer("f", "f", "f", "f"));
-            _people.Add(new Client("a", "a", "a", "a"));
-            foreach (Trainer trainer in _people)
+            gym.AddPerson(new Trainer("f", "f", "f", "f"));
+            gym.AddPerson(new Client("a", "a", "a", "a"));
+            XmlSerializer formatter = new XmlSerializer(typeof(Gym));
+
+            using (FileStream fs = new FileStream("test.xml", FileMode.OpenOrCreate))
             {
-                Console.WriteLine(trainer);
+                formatter.Serialize(fs, gym);
             }
         }
         public static void pain(String[] args)

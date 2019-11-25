@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Gym
 {
     [Serializable]
+    [XmlInclude(typeof(Client)), XmlInclude(typeof(Trainer))]
     public class Person
     {
         public string _lastname { get; set; }
